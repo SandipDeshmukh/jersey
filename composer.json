@@ -10,6 +10,7 @@
         "backpack/filemanager": "^3.0",
         "backpack/pro": "^2.2",
         "backpack/theme-coreuiv2": "^1.2",
+        "barryvdh/laravel-debugbar": "^3.13",
         "cviebrock/eloquent-sluggable": "^11.0",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
