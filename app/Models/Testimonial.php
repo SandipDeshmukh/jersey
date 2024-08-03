@@ -3,19 +3,13 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Cviebrock\EloquentSluggable\Sluggable;
-use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Product extends Model implements HasMedia
+class Testimonial extends Model
 {
     use CrudTrait;
     use HasFactory;
-    use InteractsWithMedia;
-    use Sluggable, SluggableScopeHelpers;
 
     /*
     |--------------------------------------------------------------------------
@@ -23,31 +17,17 @@ class Product extends Model implements HasMedia
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'products';
+    protected $table = 'testimonials';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    public const SIZES = ['L', 'M', 'XS', 'S', 'XS', 'XXL', '16', '18', '20', '22', '24', '26', '28', '30'];
-    public CONST STATUSES = ['Active', 'Inactive'];
-    // protected $fillable = ['name'];
+    // protected $fillable = [];
     // protected $hidden = [];
-    protected $casts = [
-        'inventory' => 'array',
+    public const STATUSES = [
+        'active' => 1,
+        'inactive' => 0,
     ];
 
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'slug_or_name',
-            ],
-        ];
-    }
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -60,11 +40,6 @@ class Product extends Model implements HasMedia
     |--------------------------------------------------------------------------
     */
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -76,15 +51,6 @@ class Product extends Model implements HasMedia
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
-
-    public function getSlugOrNameAttribute()
-    {
-        if ($this->slug != '') {
-            return $this->slug;
-        }
-
-        return $this->name;
-    }
 
     /*
     |--------------------------------------------------------------------------

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -18,7 +19,7 @@ class ProductCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+//    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -46,8 +47,19 @@ class ProductCrudController extends CrudController
             ],
             [
                 'name' => 'slug'
+            ],
+            [
+                'name' => 'status',
+                'type' => 'select_from_array',
+                'options' => Product::STATUSES
             ]
         ]);
+
+        CRUD::filter('category_id')
+            ->type('select2')
+            ->values(function () {
+                return Category::all()->pluck('name', 'id')->toArray();
+            });
 
         /**
          * Columns can be defined using the fluent syntax:

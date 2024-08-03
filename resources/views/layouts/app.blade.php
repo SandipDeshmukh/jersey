@@ -18,11 +18,12 @@
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 
     @yield('seo')
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 
 <body class="template-index index-demo1">
 <!--Page Wrapper-->
-<div class="page-wrapper">
+<div class="page-wrapper sidebar-filter shop-grid-view-page">
     @include('common.navigation')
 
     @yield('content')
@@ -30,16 +31,16 @@
 
     <!-- Including Jquery/Javascript -->
     <!-- Plugins JS -->
-    <script src="{{ asset('assets/js/plugins.js') }}"></script>
+    <script src="{{ asset('/assets/js/plugins.js') }}"></script>
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <!--Newsletter Modal Cookies-->
     <script>
-        // $(window).ready(function() {
-        //     setTimeout(function() {
-        //         $('#newsletter_modal').modal("show");
-        //     }, 7000);
-        // });
+        $(window).ready(function() {
+            setTimeout(function() {
+                $('#newsletter_modal').modal("show");
+            }, 7000);
+        });
     </script>
     <!--End Newsletter Modal Cookies-->
     @yield('script')

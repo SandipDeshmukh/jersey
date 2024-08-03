@@ -34,33 +34,11 @@
 <div class="top-header">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-6 col-sm-6 col-md-3 col-lg-4 text-left">
-                <i class="icon anm anm-phone-l me-2"></i><a href="tel:401234567890">(+40) 123 456 7890</a>
+            <div class="col-6 col-sm-6 col-md-3 col-lg-6 text-center">
+                <i class="icon anm anm-envelope-l me-2"></i><a href="mailto:support@mancityfootball.in">support@mancityfootball.in</a>
             </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4 text-center d-none d-md-block">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center d-none d-md-block">
                 Free shipping on all orders over $99 <a href="#" class="text-link ms-1">Shop now</a>
-            </div>
-            <div class="col-6 col-sm-6 col-md-3 col-lg-4 text-right d-flex align-items-center justify-content-end">
-                <div class="select-wrap language-picker float-start">
-                    <ul class="default-option">
-                        <li><div class="option english"><div class="icon"><img src="assets/images/flag/english.png" alt="english" width="24" height="24" /></div><span>English</span></div></li>
-                    </ul>
-                    <ul class="select-ul">
-                        <li><div class="option english"><div class="icon"><img src="assets/images/flag/english.png" alt="english" width="24" height="24" /></div><span>English</span></div></li>
-                        <li><div class="option arabic"><div class="icon"><img src="assets/images/flag/arabic.png" alt="arabic" width="24" height="24" /></div><span>Arabic</span></div></li>
-                        <li><div class="option english"><div class="icon"><img src="assets/images/flag/french.png" alt="french" width="24" height="24" /></div><span>French</span></div></li>
-                    </ul>
-                </div>
-                <div class="select-wrap currency-picker float-start">
-                    <ul class="default-option">
-                        <li><div class="option USD"><div class="icon"><img src="assets/images/flag/usd.png" alt="usd" width="24" height="24" /></div><span>USD</span></div></li>
-                    </ul>
-                    <ul class="select-ul">
-                        <li><div class="option USD"><div class="icon"><img src="assets/images/flag/usd.png" alt="usd" width="24" height="24" /></div><span>USD</span></div></li>
-                        <li><div class="option EUR"><div class="icon"><img src="assets/images/flag/eur.png" alt="eur" width="24" height="24" /></div><span>EUR</span></div></li>
-                        <li><div class="option GBP"><div class="icon"><img src="assets/images/flag/gbp.png" alt="gbp" width="24" height="24" /></div><span>GBP</span></div></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
@@ -76,20 +54,20 @@
         <div class="row">
             <!--Logo-->
             <div class="logo col-5 col-sm-3 col-md-3 col-lg-2 align-self-center">
-                <a class="logoImg" href="index.html"><img src="assets/images/logo.png" alt="Hema Multipurpose Html Template" title="Hema Multipurpose Html Template" width="149" height="39" /></a>
+                <a class="logoImg" href="{{ route('home') }}"><img src="{{ asset('assets/images/logo.png') }}" alt="Hema Multipurpose Html Template" title="Hema Multipurpose Html Template" width="149" height="39" /></a>
             </div>
             <!--End Logo-->
             <!--Menu-->
             <div class="col-1 col-sm-1 col-md-1 col-lg-8 align-self-center d-menu-col">
                 <nav class="navigation" id="AccessibleNav">
                     <ul id="siteNav" class="site-nav medium center">
-                        <li><a href="#">Home</a></li>
+                        <li><a href="{{ route('home') }}">Home</a></li>
                         @foreach($menus as $menu)
-                            <li @if($menu->children->isNotEmpty()) class="lvl1 parent dropdown" @endif><a href="">{{ $menu->category->name }} @if($menu->children->isNotEmpty())<i class="icon anm anm-angle-down-l"></i>@endif </a>
+                            <li @if($menu->children->isNotEmpty()) class="lvl1 parent dropdown" @endif><a href="{{ route('category', $menu->category->slug) }}">{{ $menu->category->name }} @if($menu->children->isNotEmpty())<i class="icon anm anm-angle-down-l"></i>@endif </a>
                                 @if($menu->children->isNotEmpty())
                                 <ul class="dropdown">
                                     @foreach($menu->children as $child)
-                                        <li><a href="portfolio-page.html" class="site-nav">{{ ucwords($child->category->name)  }}</a></li>
+                                        <li><a href="{{ route('category', $child->category->slug) }}" class="site-nav">{{ ucwords($child->category->name)  }}</a></li>
                                     @endforeach
                                 </ul>
                                 @endif

@@ -7,3 +7,4 @@
 <x-backpack::menu-item :title="trans('backpack::crud.file_manager')" icon="la la-files-o" :link="backpack_url('elfinder')" />
 <x-backpack::menu-item title="Sliders" icon="la la-question" :link="backpack_url('slider')" />
 <x-backpack::menu-item title="Customers" icon="la la-question" :link="backpack_url('customer')" />
+<x-backpack::menu-item title="Testimonials" icon="la la-question" :link="backpack_url('testimonial')" />
