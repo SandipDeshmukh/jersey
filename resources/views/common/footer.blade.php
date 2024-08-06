@@ -245,9 +245,9 @@
                     <div class="variants-clr swatches-image clearfix mb-3 swatch-0 option1" data-option-index="0">
                         <label class="label d-flex justify-content-center">Color:<span class="slVariant ms-1 fw-bold">Black</span></label>
                         <ul class="swatches d-flex-justify-center pt-1 clearfix">
-                            <li class="swatch large radius available active"><img src="assets/images/products/swatches/80x80.jpg" alt="image" width="80" height="80" data-bs-toggle="tooltip" data-bs-placement="top" title="Blue" /></li>
-                            <li class="swatch large radius available"><img src="assets/images/products/swatches/80x80.jpg" alt="image" width="80" height="80" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" /></li>
-                            <li class="swatch large radius available"><img src="assets/images/products/swatches/80x80.jpg" alt="image" width="80" height="80" data-bs-toggle="tooltip" data-bs-placement="top" title="Pink" /></li>
+                            <li class="swatch large radius available active"><img src="{{ asset('assets/images/products/swatches/80x80.jpg') }}" alt="image" width="80" height="80" data-bs-toggle="tooltip" data-bs-placement="top" title="Blue" /></li>
+                            <li class="swatch large radius available"><img src="{{ asset('assets/images/products/swatches/80x80.jpg') }}" alt="image" width="80" height="80" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" /></li>
+                            <li class="swatch large radius available"><img src="{{ asset('assets/images/products/swatches/80x80.jpg') }}" alt="image" width="80" height="80" data-bs-toggle="tooltip" data-bs-placement="top" title="Pink" /></li>
                             <li class="swatch large radius available green"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Green"></span></li>
                             <li class="swatch large radius soldout yellow"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Yellow"></span></li>
                         </ul>
@@ -417,9 +417,9 @@
                                 <div class="product-item swatches-image w-100 mb-3 swatch-0 option1" data-option-index="0">
                                     <label class="label d-flex align-items-center">Color:<span class="slVariant ms-1 fw-bold">Blue</span></label>
                                     <ul class="variants-clr swatches d-flex-center pt-1 clearfix">
-                                        <li class="swatch large radius available active"><img src="assets/images/products/swatches/80x80.jpg" alt="image" width="80" height="80" data-bs-toggle="tooltip" data-bs-placement="top" title="Blue" /></li>
-                                        <li class="swatch large radius available"><img src="assets/images/products/swatches/80x80.jpg" alt="image" width="80" height="80" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" /></li>
-                                        <li class="swatch large radius available"><img src="assets/images/products/swatches/80x80.jpg" alt="image" width="80" height="80" data-bs-toggle="tooltip" data-bs-placement="top" title="Pink" /></li>
+                                        <li class="swatch large radius available active"><img src="{{ asset('assets/images/products/swatches/80x80.jpg') }}" alt="image" width="80" height="80" data-bs-toggle="tooltip" data-bs-placement="top" title="Blue" /></li>
+                                        <li class="swatch large radius available"><img src="{{ asset('assets/images/products/swatches/80x80.jpg') }}" alt="image" width="80" height="80" data-bs-toggle="tooltip" data-bs-placement="top" title="Black" /></li>
+                                        <li class="swatch large radius available"><img src="{{ asset('assets/images/products/swatches/80x80.jpg') }}" alt="image" width="80" height="80" data-bs-toggle="tooltip" data-bs-placement="top" title="Pink" /></li>
                                         <li class="swatch large radius available green"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Green"></span></li>
                                         <li class="swatch large radius soldout yellow"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="Yellow"></span></li>
                                     </ul>
@@ -479,7 +479,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="newsletter-wrap d-flex flex-column">
                     <div class="newsltr-img d-none d-sm-none d-md-block">
-                        <img class="rounded-bottom-0 blur-up lazyload" data-src="assets/images/newsletter/newsletter-s6.jpg" src="assets/images/newsletter/newsletter-s6.jpg" alt="Join Our Newsletter Get 20% OFF First Order" title="Join Our Newsletter Get 20% OFF First Order" width="582" height="202" />
+                        <img class="rounded-bottom-0 blur-up lazyload" data-src="{{ asset('assets/images/newsletter/newsletter-s6.jpg') }}" src="{{ asset('assets/images/newsletter/newsletter-s6.jpg') }}" alt="Join Our Newsletter Get 20% OFF First Order" title="Join Our Newsletter Get 20% OFF First Order" width="582" height="202" />
                     </div>
                     <div class="newsltr-text text-center">
                         <div class="wraptext mw-100">

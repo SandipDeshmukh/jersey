@@ -34,6 +34,9 @@ class Product extends Model implements HasMedia
     protected $casts = [
         'inventory' => 'array',
     ];
+    protected $appends = [
+        'sizes'
+    ];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -84,6 +87,18 @@ class Product extends Model implements HasMedia
         }
 
         return $this->name;
+    }
+
+    public function getSizesAttribute()
+    {
+        $sizes = [];
+        foreach($this->inventory as $size) {
+            $sizes[] = [
+                'size' => Product::SIZES[$size['size']],
+                'quantity' => $size['quantity']
+            ]; 
+        }
+        return $sizes;
     }
 
     /*

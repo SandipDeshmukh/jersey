@@ -101,7 +101,8 @@ class ProductCrudController extends CrudController
         CRUD::addField([   // Wysiwyg
             'name'  => 'description',
             'label' => 'description',
-            'type'  => 'wysiwyg',
+            'type'  => 'summernote',
+            'options' => [],
             'tab'   => 'Texts',
         ]);
 

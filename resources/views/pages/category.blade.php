@@ -61,6 +61,7 @@
                     <div class="grid-products grid-view-items">
                         <div class="row col-row product-options row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-3 row-cols-2">
                             @foreach($products as $product)
+                            @php $productImg = json_decode($product->images) @endphp
                             <div class="item col-item">
                                 <div class="product-box">
                                     <!-- Start Product Image -->
@@ -68,10 +69,10 @@
                                         <!-- Start Product Image -->
                                         <a href="{{ route('product', $product->slug) }}" class="product-img rounded-0">
                                             <!-- Image -->
-                                            <img class="primary rounded-0 blur-up lazyload" data-src="{{ asset('assets/images/products/product1.jpg') }}" src="{{ asset('assets/images/products/product1.jpg') }}" alt="Product" title="Product" width="625" height="808" />
+                                            <img class="primary rounded-0 blur-up lazyload" data-src="{{ isset($productImg) ? asset($productImg[0]) : '/assets/images/products/product1.jpg' }}" src="{{ isset($productImg) ? asset($productImg[0]) : '/assets/images/products/product1.jpg' }}" alt="Product" title="Product" width="625" height="808" />
                                             <!-- End Image -->
                                             <!-- Hover Image -->
-                                            <img class="hover rounded-0 blur-up lazyload" data-src="{{ asset('assets/images/products/product1.jpg') }}" src="{{ asset('assets/images/products/product1.jpg') }}" alt="Product" title="Product" width="625" height="808" />
+                                            <img class="hover rounded-0 blur-up lazyload" data-src="{{ isset($productImg) ? asset($productImg[0]) : '/assets/images/products/product1.jpg' }}" src="{{ isset($productImg) ? asset($productImg[0]) : '/assets/images/products/product1.jpg' }}" alt="Product" title="Product" width="625" height="808" />
                                             <!-- End Hover Image -->
                                         </a>
                                         <!-- End Product Image -->
