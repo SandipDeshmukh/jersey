@@ -183,7 +183,7 @@
                             <ul class="m-0">
                                 <li><a href="login.html"><i class="icon anm anm-sign-in-al"></i>Sign In</a></li>
                                 <li><a href="register.html"><i class="icon anm anm-user-al"></i>Register</a></li>
-                                <li><a href="my-account.html"><i class="icon anm anm-user-cil"></i>My Account</a></li>
+                                <li><a href="{{route('customer.profile')}}"><i class="icon anm anm-user-cil"></i>My Account</a></li>
                                 <li><a href="wishlist-style1.html"><i class="icon anm anm-heart-l"></i>Wishlist</a></li>
                                 <li><a href="compare-style1.html"><i class="icon anm anm-random-r"></i>Compare</a></li>
                                 <li><a href="login.html"><i class="icon anm anm-sign-out-al"></i>Sign out</a></li>
@@ -314,9 +314,9 @@
                         <li><a href="contact-style2.html" class="site-nav">Contact Us Style2</a></li>
                     </ul>
                 </li>
-                <li><a href="my-account.html" class="site-nav">My Account <i class="icon anm anm-angle-down-l"></i></a>
+                <li><a href="{{route('customer.profile')}}" class="site-nav">My Account <i class="icon anm anm-angle-down-l"></i></a>
                     <ul class="lvl-3 dropdown">
-                        <li><a href="my-account.html" class="site-nav">My Account</a></li>
+                        <li><a href="{{route('customer.profile')}}" class="site-nav">My Account</a></li>
                         <li><a href="login.html" class="site-nav">Login</a></li>
                         <li><a href="register.html" class="site-nav">Register</a></li>
                         <li><a href="forgot-password.html" class="site-nav">Forgot Password</a></li>
@@ -354,7 +354,7 @@
                 <ul class="list-inline d-inline-flex flex-column w-100">
                     <li><a href="login.html" class="d-flex align-items-center"><i class="icon anm anm-sign-in-al"></i>Sign In</a></li>
                     <li><a href="register.html" class="d-flex align-items-center"><i class="icon anm anm-user-al"></i>Register</a></li>
-                    <li><a href="my-account.html" class="d-flex align-items-center"><i class="icon anm anm-user-cil"></i>My Account</a></li>
+                    <li><a href="{{route('customer.profile')}}" class="d-flex align-items-center"><i class="icon anm anm-user-cil"></i>My Account</a></li>
                     <li class="title h5">Need Help?</li>
                     <li><a href="tel:401234567890" class="d-flex align-items-center"><i class="icon anm anm-phone-l"></i> (+40) 123 456 7890</a></li>
                     <li><a href="mailto:info@example.com" class="d-flex align-items-center"><i class="icon anm anm-envelope-l"></i> info@example.com</a></li>
