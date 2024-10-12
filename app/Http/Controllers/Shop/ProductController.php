@@ -14,6 +14,7 @@ class ProductController extends Controller
         $product = Product::where('slug', $request->product)->first();
         $estimateDate1 = Carbon::now()->add(7, 'day')->isoFormat('ddd, MMM D');
         $estimateDate2 = Carbon::now()->add(8, 'day')->isoFormat('ddd, MMM D');
-        return view('pages.single-product', compact('product', 'estimateDate1', 'estimateDate2'));
+        $count = 3;
+        return view('pages.single-product', compact('product', 'estimateDate1', 'estimateDate2', 'count'));
     }
 }

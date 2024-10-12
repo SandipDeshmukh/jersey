@@ -41,8 +41,8 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
-
-        return redirect()->route('cart.view')->with('success', 'Product added to cart successfully!');
+        return response()->json(['message' => 'Product added to cart successfully!'], 200);
+        // return redirect()->route('cart.view')->with('success', 'Product added to cart successfully!');
     }
 
 
@@ -52,6 +52,12 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
         dd($cart);
         return view('cart.index', compact('cart'));
+    }
+
+    public function getCount() {
+        $cart = session()->get('cart', []);
+        $count = count($cart);
+        return response()->json(['count' => $count]);
     }
 
     // Remove product from cart
