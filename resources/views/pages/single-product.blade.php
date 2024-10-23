@@ -75,117 +75,195 @@
 
                     <!-- Product Form -->
                     <form method="post" action="{{ route('cart.add') }}" class="product-form product-form-border hidedropdown" x-data="cartForm()">
-    @csrf
-    <!-- Swatches -->
-    <div class="product-item swatches-size w-100 mb-4 swatch-1 option2" data-option-index="1" x-data="size()">
-        <label class="label d-flex align-items-center">Size:<span class="slVariant ms-1 fw-bold" x-text="selectedSize"></span> <a href="#sizechart-modal" class="text-link sizelink text-muted size-chart-modal" data-bs-toggle="modal" data-bs-target="#sizechart_modal">Size Guide</a></label>
-        <ul class="variants-size size-swatches d-flex-center pt-1 clearfix">
-            @foreach($product->sizes as $size)
-            <li class="swatch x-large @if($size['quantity'] < 1) soldout @endif" @click="selectSize('{{ $size['size'] }}')" :class="selectedSize === '{{ $size['size'] }}' ? 'active' : ''"><span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $size['size'] }}">{{ $size['size'] }}</span></li>
-            @endforeach
-        </ul>
-    </div>
+                        @csrf
+                        <!-- Swatches -->
+                        <div class="product-item swatches-size w-100 mb-4 swatch-1 option2" data-option-index="1">
+                            <label class="label d-flex align-items-center">Size:<span class="slVariant ms-1 fw-bold" x-text="$store.cart.size"></span> 
+                                <a href="#sizechart-modal" class="text-link sizelink text-muted size-chart-modal" data-bs-toggle="modal" data-bs-target="#sizechart_modal">Size Guide</a>
+                            </label>
+                            <ul class="variants-size size-swatches d-flex-center pt-1 clearfix">
+                                @foreach($product->sizes as $size)
+                                <li class="swatch x-large @if($size['quantity'] < 1) soldout @endif" 
+                                    @click="$store.cart.selectSize('{{ $size['size'] }}')" 
+                                    :class="$store.cart.selectedSize === '{{ $size['size'] }}' ? 'active' : ''">
+                                    <span class="swatchLbl" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $size['size'] }}">{{ $size['size'] }}</span>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @if($product->is_custom)
+                        <div class="product-item swatches-size w-100 mb-4 swatch-1 option2" data-option-index="1" x-data="jerseyName()">
+                            <label class="label d-flex align-items-center">Jersey Name:</label>
+                            <input type="text" x-model="$store.cart.jerseyName" class="form-control" />
+                        </div>
 
-    <script>
-        function size() {
-            return {
-                selectedSize: "{{ $product->sizes[0]['size'] ?? '' }}",
-                selectSize(size) {
-                    this.selectedSize = size;
-                }
-            }
-        }
-    </script>
-    <!-- End Swatches -->
+                        <div class="product-item swatches-size w-100 mb-4 swatch-1 option2" data-option-index="1" x-data="jerseyNumber()">
+                            <label class="label d-flex align-items-center">Jersey Number:</label>
+                            <input type="text" x-model="$store.cart.jerseyNumber" class="form-control" />
+                        </div>
+                        @endif
 
-    <!-- Product Action -->
-    <div class="product-action w-100 d-flex-wrap my-3 my-md-4">
-        <!-- Product Quantity -->
-        <input type="hidden" name="product_id" x-model="$store.cart.product_id" value="{{ $product->id }}">
-        <div class="product-form-quantity d-flex-center">
-            <div class="qtyField">
-                <a class="qtyBtn minus" href="#" @click.prevent="$store.cart.decreaseQty()"><i class="icon anm anm-minus-r"></i></a>
-                <input type="text" name="quantity" x-model="$store.cart.qty" value="1" class="product-form-input qty" readonly />
-                <a class="qtyBtn plus" href="#" @click.prevent="$store.cart.increaseQty()"><i class="icon anm anm-plus-r"></i></a>
-            </div>
-        </div>
-        <!-- End Product Quantity -->
-        <!-- Product Add -->
-        <div class="product-form-submit addcart fl-1 ms-3">
-            <button type="submit" name="add" class="btn btn-secondary product-form-cart-submit" id="add-to-cart" @click.prevent="$store.cart.addToCart()">
-                <span>Add to cart</span>
-            </button>
-        </div>
-        <!-- Product Add -->
-        <!-- Product Buy -->
-        <div class="product-form-submit buyit fl-1 ms-3">
-            <button type="submit" class="btn btn-primary proceed-to-checkout" @click.prevent="$store.cart.buyNow()">
-                <span>Buy it now</span>
-            </button>
-        </div>
-        <!-- End Product Buy -->
-    </div>
+                        <script>
+                            // function size() {
+                            //     return {
+                            //         selectedSize: "{{ $product->sizes[0]['size'] ?? '' }}",
+                            //         selectSize(size) {
+                            //             this.selectedSize = size;
+                            //         }
+                            //     }
+                            // }
 
-    <script>
-        function cartForm() {
-            return {
-                init() {
-                    Alpine.store('cart', {
-                        qty: 1,
-                        product_id: "{{ $product->id }}",
-                        addToCart() {
-                            console.log('here');
-                            // Add to cart logic here
-                            fetch("{{ route('cart.add') }}", {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                    },
-                                    body: JSON.stringify({
-                                        product_id: this.product_id,
-                                        quantity: this.qty
-                                    })
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    console.log(data)
-                                    fetch('/get-count')
-                    .then(response => response.json())
-                    .then(data => {
-                        window.dispatchEvent(new CustomEvent('update-count', {
-                            detail: { count: data.count }
-                        }));
-                    });
-                                })
-                                .catch(error => console.error("error"));
-                        },
-                        buyNow() {
-                            // Buy now logic here
-                            console.log('Buying now');
-                        },
-                        decreaseQty() {
-                            if (this.qty > 1) {
-                                this.qty--;
+                            function jerseyName() {
+                                return {
+                                    jerseyNameValue: "",
+                                }
                             }
-                        },
-                        increaseQty() {
-                            this.qty++;
-                        }
-                    });
-                }
-            }
-        }
-    </script>
-    <!-- End Product Action -->
 
-    <!-- Product Info link -->
-    <p class="infolinks d-flex-center justify-content">
-        <a class="text-link wishlist" href="wishlist-style1.html"><i class="icon anm anm-heart-l me-2"></i> <span>Add to Wishlist</span></a>
-        <a href="#shippingInfo-modal" class="text-link shippingInfo" data-bs-toggle="modal" data-bs-target="#shippingInfo_modal"><i class="icon anm anm-paper-l-plane me-2"></i> <span>Delivery &amp; Returns</span></a>
-    </p>
-    <!-- End Product Info link -->
-</form>
+                            function jerseyNumber() {
+                                return {
+                                    jerseyNumberValue: "",
+                                }
+                            }
+                        </script>
+                        <!-- End Swatches -->
+
+                        <!-- Info Message -->
+                        <div x-show="$store.cart.showMessage" 
+                            x-text="$store.cart.message"
+                            class="alert alert-success absolute top-0 right-0 mt-2 mr-2"
+                            x-cloak>
+                        </div>
+                        <!-- Product Action -->
+                        <div class="product-action w-100 d-flex-wrap my-3 my-md-4">
+                            <!-- Product Quantity -->
+                            <input type="hidden" name="product_id" x-model="$store.cart.product_id" value="{{ $product->id }}">
+                            <div class="product-form-quantity d-flex-center">
+                                <div class="qtyField">
+                                    <a class="qtyBtn minus" href="#" @click.prevent="$store.cart.decreaseQty()"><i class="icon anm anm-minus-r"></i></a>
+                                    <input type="text" name="quantity" x-model="$store.cart.qty" value="1" class="product-form-input qty" readonly />
+                                    <a class="qtyBtn plus" href="#" @click.prevent="$store.cart.increaseQty()"><i class="icon anm anm-plus-r"></i></a>
+                                </div>
+                            </div>
+                            <!-- End Product Quantity -->
+                            <!-- Product Add -->
+                            <div class="product-form-submit addcart fl-1 ms-3 relative">
+                                <button type="submit" name="add" class="btn btn-secondary product-form-cart-submit" id="add-to-cart" @click.prevent="$store.cart.addToCart()">
+                                    <span>Add to cart</span>
+                                </button>
+                            </div>
+                            <!-- Product Add -->
+                            <!-- Product Buy -->
+                            <div class="product-form-submit buyit fl-1 ms-3">
+                                <button type="submit" class="btn btn-primary proceed-to-checkout" @click.prevent="$store.cart.buyNow()">
+                                    <span>Buy it now</span>
+                                </button>
+                            </div>
+                            <!-- End Product Buy -->
+                        </div>
+
+                        <script>
+                            function cartForm() {
+                                return {
+                                    selectedSize: "{{ $product->sizes[0]['size'] }}", 
+                                    init() {
+                                        Alpine.store('cart', {
+                                            showMessage: false,
+                                            message: '',
+                                            timeoutId: null,
+                                            qty: 1,
+                                            product_id: "{{ $product->id }}",
+                                            jerseyName: "",
+                                            size: this.selectedSize,
+                                            selectedSize: "{{ $product->sizes[0]['size'] }}",
+                                            selectSize(size) {
+                                                console.log('here', size);
+                                                this.size = size;
+                                            },
+                                            jerseyNumber: "",
+                                            addToCart() {
+                                                // Validate the jerseyName and jerseyNumber fields
+                                                @if($product->is_custom)
+                                                if (!this.jerseyName || !this.jerseyNumber) {
+                                                    this.message = 'Jersey name and number are required!';
+                                                    this.showMessage = true;
+
+                                                    // Automatically hide the message after 3 seconds
+                                                    clearTimeout(this.timeoutId);
+                                                    this.timeoutId = setTimeout(() => {
+                                                        this.showMessage = false;
+                                                    }, 3000);
+                                                    return; // Stop execution if validation fails
+                                                }
+                                                @endif
+
+                                                // Add to cart logic here
+                                                fetch("{{ route('cart.add') }}", {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                        },
+                                                        body: JSON.stringify({
+                                                            product_id: this.product_id,
+                                                            quantity: this.qty,
+                                                            jersey_name: this.jerseyName,
+                                                            jersey_number: this.jerseyNumber,
+                                                            size: this.size
+                                                        })
+                                                    })
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        // Set the message and show it
+                                                        this.message = 'Item added to cart successfully';
+                                                        this.showMessage = true;
+
+                                                        // Automatically hide the message after 3 seconds
+                                                        clearTimeout(this.timeoutId);
+                                                        this.timeoutId = setTimeout(() => {
+                                                            this.showMessage = false;
+                                                            console.log("this.showMessage", this.showMessage);
+                                                        }, 3000);
+
+                                                        console.log("this.showMessage", this.showMessage);
+
+                                                        fetch('/get-count')
+                                                            .then(response => response.json())
+                                                            .then(data => {
+                                                                window.dispatchEvent(new CustomEvent('update-count', {
+                                                                    detail: {
+                                                                        count: data.count
+                                                                    }
+                                                                }));
+                                                            });
+                                                    })
+                                                    .catch(error => console.error("error"));
+                                            },
+                                            buyNow() {
+                                                // Buy now logic here
+                                                console.log('Buying now');
+                                            },
+                                            decreaseQty() {
+                                                if (this.qty > 1) {
+                                                    this.qty--;
+                                                }
+                                            },
+                                            increaseQty() {
+                                                this.qty++;
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        </script>
+                        <!-- End Product Action -->
+
+                        <!-- Product Info link -->
+                        <p class="infolinks d-flex-center justify-content">
+                            <a class="text-link wishlist" href="wishlist-style1.html"><i class="icon anm anm-heart-l me-2"></i> <span>Add to Wishlist</span></a>
+                            <a href="#shippingInfo-modal" class="text-link shippingInfo" data-bs-toggle="modal" data-bs-target="#shippingInfo_modal"><i class="icon anm anm-paper-l-plane me-2"></i> <span>Delivery &amp; Returns</span></a>
+                        </p>
+                        <!-- End Product Info link -->
+                    </form>
                     <!-- End Product Form -->
 
                     <!-- Product Info -->

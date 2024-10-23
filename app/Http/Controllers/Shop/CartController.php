@@ -8,68 +8,101 @@ use App\Models\Product;
 
 class CartController extends Controller
 {
+    private $user_id;
+    public function __construct()
+    {
+        $this->user_id = 1;
+    }
     // Add product to cart
     public function addToCart(Request $request)
     {
-        // if user is logged in use the session(user_id);
-        $cart = session()->get('cart', []);
-        $productId = $request->input('product_id');
-        $quantity = $request->input('quantity', 1);
-        $product = Product::findOrFail($productId);
+        try {
+            $cart = [];
+            $productId = $request->input('product_id');
+            $quantity = $request->input('quantity', 1);
+            $size = $request->input('size');
 
-        if ($product->is_custom) {
-            $cart[] = [
-                "id" => uniqid(),
-                "name" => $product->name,
-                "quantity" => $quantity,
-                "price" => $product->price,
-                "image" => $product->image,
-                "jersey_name" => $request->input('jersey_name'),
-                "jersey_number" => $request->input('jersey_number'),
-                "is_custom" => true,
-            ];
-        } else {
-            $cart[$productId] = $cart[$productId] ?? [
-                "id" => $productId,
-                "name" => $product->name,
-                "quantity" => 0,
-                "price" => $product->price,
-                "image" => $product->image,
-                "is_custom" => false,
-            ];
-            $cart[$productId]["quantity"] += $quantity;
+            // Assuming you have already retrieved the product from the database
+            $product = Product::find($productId);
+            $quantity = $request->input('quantity', 1); // Default to 1 if quantity is not provided
+
+            if ($product->is_custom) {
+                // Custom product logic
+                \Cart::session($this->user_id)->add(uniqid(), $product->name, $product->price, $quantity, [
+                    'image' => $product->image,
+                    'product_id' => $productId,
+                    'size' => $size,
+                    'jersey_name' => $request->input('jersey_name'),
+                    'jersey_number' => $request->input('jersey_number'),
+                    'is_custom' => true
+                ]);
+            } else {
+                // Non-custom product logic
+                $cartItem = \Cart::session($this->user_id)->get($productId);
+                if ($cartItem) {
+                    // If the product already exists in the cart, update the quantity
+                    \Cart::session($this->user_id)->update($productId, [
+                        'quantity' => $quantity, // Increase quantity
+                    ]);
+                } else {
+                    // If the product does not exist, add it to the cart
+                    \Cart::session($this->user_id)->add($productId, $product->name, $product->price, $quantity, [
+                        'product_id' => $productId,
+                        'size' => $size,
+                        'image' => $product->image,
+                        'is_custom' => false,
+                    ]);
+                }
+            }
+            return response()->json(['message' => 'Product added to cart successfully!'], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['message' => 'Product not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while adding product to cart', $e->getMessage()], 500);
         }
-
-        session()->put('cart', $cart);
-        return response()->json(['message' => 'Product added to cart successfully!'], 200);
-        // return redirect()->route('cart.view')->with('success', 'Product added to cart successfully!');
     }
 
 
     // View the cart
     public function viewCart()
     {
-        $cart = session()->get('cart', []);
-        dd($cart);
-        return view('cart.index', compact('cart'));
+        $cart = \Cart::session($this->user_id)->getContent();
+        return view('pages.cart', compact('cart'));
     }
 
-    public function getCount() {
-        $cart = session()->get('cart', []);
-        $count = count($cart);
+    public function getCount()
+    {
+        $cart = \Cart::session($this->user_id)->getContent();
+        $count = $cart->count();
         return response()->json(['count' => $count]);
     }
 
     // Remove product from cart
-    public function removeFromCart($id)
+    public function removeFromCart(Request $request)
     {
-        $cart = session()->get('cart', []);
+        $id = $request->cartItemId;
+        \Cart::session($this->user_id)->remove($id);
 
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-            session()->put('cart', $cart);
+        return response()->json(['message' => 'Product removed from cart successfully!', "success" => true], 200);
+    }
+
+    public function emptyCart()
+    {
+        \Cart::session($this->user_id)->clear();
+        return response()->json(['message' => 'Cart emptied successfully!'], 200);
+    }
+
+    public function update(Request $request)
+    {
+        $items = $request->input('items');
+        foreach ($items as $item) {
+            // Update cart item quantity in the session or database
+            \Cart::session($this->user_id)->update($item['id'], ['quantity' => [
+                'relative' => false,
+                'value' => $item['quantity']
+            ]]);
         }
 
-        return redirect()->route('cart.view')->with('success', 'Product removed from cart successfully!');
+        return response()->json(['success' => true]);
     }
 }

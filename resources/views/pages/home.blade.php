@@ -104,10 +104,6 @@
         <!--Products With Tabs-->
         <section class="section product-slider tab-slider-product">
             <div class="container">
-                <div class="section-header d-none">
-                    <h2>Special Offers</h2>
-                    <p>Browse the huge variety of our best seller</p>
-                </div>
 
                 <div class="tabs-listing">
                     <ul class="nav nav-tabs style1 justify-content-center" id="productTabs" role="tablist">
@@ -134,7 +130,7 @@
                                             <div class="product-image">
                                                 <!-- Start Product Image -->
                                                 @php $productImg = json_decode($product->images) @endphp
-                                                <a href="product-layout1.html" class="product-img rounded-3"><img class="blur-up lazyload" src="{{ isset($productImg) ? asset($productImg[0]) : 'assets/images/products/product1.jpg' }}" alt="Product" title="Product" width="625" height="808" /></a>
+                                                <a href="{{ route('product', $product->slug) }}" class="product-img rounded-3"><img class="blur-up lazyload" src="{{ isset($productImg) ? asset($productImg[0]) : 'assets/images/products/product1.jpg' }}" alt="Product" title="Product" width="625" height="808" /></a>
                                                 <!-- End Product Image -->
                                             </div>
                                             <!-- End Product Image -->
@@ -175,7 +171,7 @@
                                                 <div class="product-image">
                                                     <!-- Start Product Image -->
                                                     @php $productImg = json_decode($product->images) @endphp
-                                                    <a href="product-layout1.html" class="product-img rounded-3"><img class="blur-up lazyload" src="{{ isset($productImg) ? asset($productImg[0]) : 'assets/images/products/product1.jpg' }}" alt="Product" title="Product" width="625" height="808" /></a>
+                                                    <a href="{{ route('product', $product->slug) }}" class="product-img rounded-3"><img class="blur-up lazyload" src="{{ isset($productImg) ? asset($productImg[0]) : 'assets/images/products/product1.jpg' }}" alt="Product" title="Product" width="625" height="808" /></a>
                                                     <!-- End Product Image -->
                                                 </div>
                                                 <!-- End Product Image -->

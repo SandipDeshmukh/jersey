@@ -101,7 +101,7 @@
                 <!--End Wishlist-->
                 <!--Minicart-->
                 <div class="header-cart iconset" title="Cart" x-data="headerCount()" x-init="fetchCount()" @update-count.window="updateCount($event.detail.count)">
-                    <a href="#;" class="header-cart btn-minicart clr-none" data-bs-toggle="offcanvas" data-bs-target="#minicart-drawer"><i class="hdr-icon icon anm anm-cart-l"></i><span class="cart-count" id="header-count" x-text="count"></span></a>
+                    <a href="{{ route('cart.view') }}" class="header-cart btn-minicart clr-none"><i class="hdr-icon icon anm anm-cart-l"></i><span class="cart-count" id="header-count" x-text="count"></span></a>
                 </div>
                 <!--End Minicart-->
                 <!--Mobile Toggle-->
